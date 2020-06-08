@@ -34,7 +34,13 @@
             <v-card-text>
               <v-row>
                 <v-col cols="12" sm="6" md="4">
-                  <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
+                  <v-text-field v-model="editedItem.name" label="First Name"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6" md="4">
+                  <v-text-field v-model="editedItem.name" label="Last Name"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6" md="4">
+                  <v-text-field v-model="editedItem.name" label="Student ID"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
                   <v-text-field v-model="editedItem.gradYear" label="Graduation Year"></v-text-field>
@@ -43,13 +49,22 @@
                   <v-text-field v-model="editedItem.phone" label="Phone Number"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
+                  <v-text-field v-model="editedItem.name" label="Birthday"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6" md="4">
                   <v-text-field v-model="editedItem.email" label="Email"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
                   <v-text-field v-model="editedItem.major" label="Major"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
+                  <v-text-field v-model="editedItem.name" label="Emplyed"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6" md="4">
                   <v-text-field v-model="editedItem.employer" label="Employer"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6" md="4">
+                  <v-text-field v-model="editedItem.name" label="Position"></v-text-field>
                 </v-col>
               </v-row>
             </v-card-text>
@@ -116,6 +131,33 @@ export default {
         employer: ""
       }
     };
+  },
+  methods: {
+    editItem(item) {
+      this.editedIndex = this.students.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+    },
+    deleteItem(item) {
+      const index = this.students.indexOf(item);
+      confirm("Are you sure you want to delete this item?") &&
+        this.students.splice(index, 1);
+    },
+    close() {
+      this.dialog = false;
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      }, 300);
+    },
+    save() {
+      if (this.editedIndex > -1) {
+        Object.assign(this.students[this.editedIndex], this.editedItem);
+      } else {
+        this.student.push(this.editedItem);
+      }
+      this.close();
+    }
   },
   // }
   // Pull updated data from database
